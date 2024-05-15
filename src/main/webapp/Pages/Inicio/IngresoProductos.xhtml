@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head>
-        <title>Ingreso de Productos</title>
-    </h:head>
-    <h:body>
-        <h:form>
-            <p:panelGrid columns="2">
-                <p:outputLabel value="Codigo Producto"/>
-                <p:inputText placeholder="Ejem.0123" id="txtcodigo" value="#{bkn_inventario.id_producto}"/>
-                <p:outputLabel value="Precio Coste "/>
-                <p:inputText placeholder="Ejem. Q. 35" id="txtprecioc" value="#{bkn_inventario.precio_coste}"/>
-                <p:outputLabel value="Precio Publico "/>
-                <p:inputText placeholder="Ejem. mendizabal S.A" id="txtpreciop" value="#{bkn_inventario.precio_publico}"/>
-                <p:outputLabel value="Cantidad "/>
-                <p:inputText placeholder="Ejem. mendizabal S.A" id="txtcantidad" value="#{bkn_inventario.cantidad}"/>
-            </p:panelGrid>
-            <p:panelGrid columns="4">
-                <p:outputLabel value="INGRESAR"/>
-                <p:commandButton id="btningresar" value="ingresar" action="#{bkn_inventario.agregarInventario()}" styleClass="rounded-button ui-button-success"/> 
-            </p:panelGrid>
-        </h:form>
-    </h:body>
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Formulario de Registros</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Nombre:" for="nombre" />
+            <p:inputText id="nombre" value="#{registroBean.nombre}" />
+
+            <h:outputLabel value="Modelo:" for="modelo" />
+            <p:inputText id="modelo" value="#{registroBean.modelo}" />
+        </h:panelGrid>
+
+        <p:commandButton value="Guardar" icon="pi pi-save" action="#{registroBean.guardar}" />
+
+    </h:form>
+
+    <p:dataTable id="tblLista" value="#{registroBean.clientes}" var="item" selection="#{registroBean.cliente}" rowKey="#{item.id}" 
+                     lazy="true" selectionMode="single" paginator="true" rows="10">
+            <p:ajax event="rowSelect" listener="#{registroBean.clienteSeleccionado}" update="formulario1"/>
+            <p:ajax event="rowUnselect" listener="#{registroBean.onRowUnselect}" update="formulario1"/>
+        <p:column headerText="ID">
+            <h:outputText value="#{registro.id}" />
+        </p:column>
+        <p:column headerText="Nombre">
+            <h:outputText value="#{registro.nombre}" />
+        </p:column>
+        <p:column headerText="Modelo">
+            <h:outputText value="#{registro.modelo}" />
+        </p:column>
+    </p:dataTable>
+</h:body>
 </html>
